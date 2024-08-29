@@ -4,7 +4,7 @@ instance_type = "t2.micro"
 availability_zone = "us-east-1a"
 key_name = "keypair1"
 tags = {
-  Name=  "dev-1"
+  Name=  "dev-4"
 }
 
 }
