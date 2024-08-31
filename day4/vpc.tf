@@ -9,6 +9,7 @@ resource "aws_subnet" "public" {
     vpc_id = aws_vpc.name.id
     cidr_block = "10.0.1.0/24"
     availability_zone = "us-east-1a"
+    depends_on = [ aws_vpc.name ]
     tags = {
       name = "public-subnet"
 
@@ -18,6 +19,7 @@ resource "aws_subnet" "public" {
 
 resource "aws_internet_gateway" "myig" {
     vpc_id = aws_vpc.name.id
+    depends_on = [ aws_subnet.private ]
     tags = {
       name = "my-ig1"
     }
@@ -49,6 +51,7 @@ resource "aws_subnet" "private" {
     vpc_id = aws_vpc.name.id
     cidr_block = "10.0.2.0/24"
     availability_zone = "us-east-1b"
+    depends_on = [aws_subnet.public]
     tags = {
         name = "private-subnet"
     }
@@ -58,6 +61,7 @@ resource "aws_subnet" "private" {
 resource "aws_nat_gateway" "nat" {
     subnet_id = aws_subnet.public.id
     allocation_id = aws_eip.eip.id
+    depends_on = [ aws_internet_gateway.myig ]
   tags = {
     name = "my-ng"
   }
